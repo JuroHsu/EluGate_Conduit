@@ -1,0 +1,46 @@
+[package]
+name = "elugate-conduit"
+version = "0.1.0"
+description = "EluGate Conduit - SSH 通道管理器"
+authors = ["伊露科技有限公司 Elu Technology Ltd. <service@elu.com.tw>"]
+license = "MIT"
+homepage = "https://elu.com.tw/"
+edition = "2021"
+
+[lib]
+name = "conduit_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-single-instance = "2"
+tauri-plugin-autostart = "2"
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["process", "net", "time", "sync", "io-util", "macros", "rt-multi-thread"] }
+tokio-util = "0.7"
+uuid = { version = "1", features = ["v4"] }
+chrono = { version = "0.4", features = ["serde"] }
+similar = "2"
+sha2 = "0.10"
+hex = "0.4"
+glob = "0.3"
+dirs = "5"
+anyhow = "1"
+sys-locale = "0.3"
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.59", features = ["Win32_Foundation", "Win32_System_JobObjects", "Win32_System_Threading", "Win32_Security", "Win32_Globalization"] }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true

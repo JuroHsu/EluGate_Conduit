@@ -1,0 +1,67 @@
+# JavaScript dependencies and build output
+node_modules/
+/dist/
+.vite/
+*.tsbuildinfo
+coverage/
+
+# Rust / Tauri generated output (keep Cargo.lock for reproducible app builds)
+/target/
+/src-tauri/target/
+/src-tauri/gen/
+/src-tauri/icons/.tray-tmp/
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+!.env.*.example
+.ssh/
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+id_ecdsa
+id_ecdsa.*
+id_dsa
+id_dsa.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.p8
+*.ppk
+*.mobileprovision
+
+# Local app data, logs, SSH config backups, and temporary files
+/config.json
+/running.pids
+/logs/
+*.log
+*.log.*
+*.bak
+*.bak.*
+*.tmp
+*.swp
+*.swo
+*~
+/tmp/
+/.tmp/
+
+# Python caches used by asset generation
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local editor and OS state
+.idea/
+.vscode/
+.vs/
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+
+# Keep source assets, installer artwork, screenshots, package-lock.json,
+# and src-tauri/Cargo.lock in version control.
