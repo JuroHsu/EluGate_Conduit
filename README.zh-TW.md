@@ -12,7 +12,7 @@ EluGate Conduit 是由 **伊露科技有限公司 Elu Technology Ltd.** 開發�
 
 採用 **Rust**、**Tauri 2**、**React** 與 **TypeScript**，使用系統既有的 OpenSSH 用戶端，延續你的 SSH 設定。
 
-[公司官網](https://elu.com.tw/) · [聯絡我們](mailto:service@elu.com.tw) · [MIT 授權](LICENSE)
+[下載安裝檔](https://github.com/JuroHsu/EluGate_Conduit/releases) · [公司官網](https://elu.com.tw/) · [聯絡我們](mailto:service@elu.com.tw) · [MIT 授權](LICENSE)
 
 ![繁體中文通道管理介面](docs/screenshots/tunnels-zh-TW.png)
 
@@ -67,7 +67,9 @@ ssh -V
 
 Windows 版優先使用系統內建 OpenSSH。也可以在「**偏好設定 → OpenSSH**」指定其他執行檔。
 
-目前請依下方步驟從原始碼建置；本文件不假設已有可下載或已簽章的正式發行版本。
+版本發布後，可直接從 [GitHub Releases](https://github.com/JuroHsu/EluGate_Conduit/releases) 的 **Assets** 下載安裝檔：Windows x64 可選擇 `-setup.exe`（可選語言）或對應語言的 `.msi`；macOS 請選擇 `_universal.dmg`（支援 Apple Silicon 與 Intel）。自動產生的 **Source code** 壓縮檔是原始碼，不是安裝程式。若尚未列出 Release，請依下方步驟自行建置。
+
+目前 Windows 安裝檔尚無發行者簽章，macOS 僅使用 ad-hoc 簽章、尚未完成 Apple 公證；作業系統可能顯示警告或阻擋安裝／開啟。這些安裝包仍需完成下方所列的平台驗證。
 
 ### 建立第一條通道
 
@@ -146,6 +148,12 @@ npm run tauri build -- --bundles app,dmg
 產物位於 `src-tauri/target/release/bundle/`，各平台安裝包應在對應平台建置。正式發行的程式簽章與 macOS notarization 需要另外設定。
 
 Windows MSI 設定為產生 10 種語言的個別安裝包；NSIS 則使用單一安裝程式，啟動時可選擇語言。安裝程式語言與介面語言相同，但不含越南文。
+
+### 發布 GitHub Release
+
+推送 `v<版本號>` 標籤後，[發布工作流程](.github/workflows/release.yml)會建置 Windows x64 與 macOS 通用版安裝檔。兩個平台都通過後才公開 Release，並附上安裝檔與 SHA-256 校驗清單。在分支上手動執行 Actions，只會產生測試用 artifacts。
+
+首次設定、版本更新、簽章限制與重跑方式，請參閱[發布指南](docs/RELEASING.md)。
 
 ### 圖示、安裝素材與翻譯
 

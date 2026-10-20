@@ -12,7 +12,7 @@ EluGate Conduit is an open-source desktop SSH tunnel manager by **伊露科技�
 
 Built with **Rust**, **Tauri 2**, **React**, and **TypeScript**, it uses your system's OpenSSH client and existing SSH configuration.
 
-[Company website](https://elu.com.tw/) · [Contact](mailto:service@elu.com.tw) · [MIT license](LICENSE)
+[Download installers](https://github.com/JuroHsu/EluGate_Conduit/releases) · [Company website](https://elu.com.tw/) · [Contact](mailto:service@elu.com.tw) · [MIT license](LICENSE)
 
 ![Tunnel management in English](docs/screenshots/tunnels-en.png)
 
@@ -67,7 +67,9 @@ ssh -V
 
 On Windows, the app prefers the built-in OpenSSH client. You can select another executable under **Preferences → OpenSSH**.
 
-For now, build from source using the steps below. This repository does not assume that downloadable or signed releases are available.
+Download installers from [GitHub Releases](https://github.com/JuroHsu/EluGate_Conduit/releases) when a release is available. Under **Assets**, choose the Windows x64 `-setup.exe` (language selector), a language-specific `.msi`, or the macOS `_universal.dmg` (Apple Silicon and Intel). The automatically generated **Source code** archives are not installers. If no release is listed yet, build from source using the steps below.
+
+Windows installers are currently unsigned by a publisher; macOS builds use ad-hoc signing without Apple notarization. The operating system may warn about or block installation/opening. These packages still require the platform validation described below.
 
 ### Create your first tunnel
 
@@ -146,6 +148,12 @@ npm run tauri build -- --bundles app,dmg
 Bundles are written under `src-tauri/target/release/bundle/`. Build each platform's packages on that platform. Release signing and macOS notarization require separate configuration.
 
 Windows MSI builds are configured for 10 language-specific packages. NSIS uses a single installer with a language selector. The installer languages match the UI languages except Vietnamese.
+
+### Publish a GitHub Release
+
+The [release workflow](.github/workflows/release.yml) builds Windows x64 and macOS universal installers when a `v<version>` tag is pushed. It publishes the Release only after both platforms pass, with installers and SHA-256 checksums attached. A manual Actions run on a branch produces test artifacts without publishing.
+
+See the [release guide](docs/RELEASING.md) for first-time setup, version updates, signing limitations, and retries.
 
 ### Assets and translations
 
