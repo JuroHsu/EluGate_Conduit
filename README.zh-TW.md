@@ -16,7 +16,7 @@ EluGate Conduit 是由 **伊露科技有限公司 Elu Technology Ltd.** 開發�
 
 ![繁體中文通道管理介面](docs/screenshots/tunnels-zh-TW.png)
 
-> 目前版本為 0.2.0，處於早期開發階段。Windows 11 為主要驗證平台；macOS 與 Linux 支援已實作，但尚未完成端到端驗證。詳見[目前狀態與限制](#目前狀態與限制)。
+> 目前版本為 0.2.1，處於早期開發階段。Windows 11 為主要驗證平台；macOS 與 Linux 支援已實作，但尚未完成端到端驗證。詳見[目前狀態與限制](#目前狀態與限制)。
 >
 > 截圖使用 Chromium 擷取專案實際 React 介面，搭配範例資料與模擬連線狀態，並非真實 SSH 連線。[截圖說明](docs/screenshots/README.md)。
 
@@ -70,7 +70,7 @@ Windows 版優先使用系統內建 OpenSSH。也可以在「**偏好設定 → 
 
 Linux 發行套件以 Ubuntu 22.04 建置，提供 x64 `.deb`、`.rpm` 與 `.AppImage`。系統需要 WebKitGTK 4.1、GTK 3、AppIndicator 與 OpenSSH。GNOME 需啟用 AppIndicator 擴充功能才能顯示系統匣；Linux 點擊圖示會開啟選單，再選擇「開啟管理介面」。AppImage 請先加上執行權限，移到固定位置後再勾選登入時啟動。登入時啟動只常駐系統匣，不會自動顯示主視窗。
 
-版本發布後，可直接從 [GitHub Releases](https://github.com/JuroHsu/EluGate_Conduit/releases) 的 **Assets** 下載安裝檔：Windows x64 可選擇 `-setup.exe`（可選語言）或對應語言的 `.msi`；macOS 請選擇 `_universal.dmg`（支援 Apple Silicon 與 Intel）。自動產生的 **Source code** 壓縮檔是原始碼，不是安裝程式。若尚未列出 Release，請依下方步驟自行建置。
+版本發布後，可直接從 [GitHub Releases](https://github.com/JuroHsu/EluGate_Conduit/releases) 的 **Assets** 下載安裝檔：Windows x64 可選擇 `-setup.exe`（可選語言）或繁體中文的 `_zh-TW.msi`；macOS 請選擇 `_universal.dmg`（支援 Apple Silicon 與 Intel）。自動產生的 **Source code** 壓縮檔是原始碼，不是安裝程式。若尚未列出 Release，請依下方步驟自行建置。
 
 目前 Windows 安裝檔尚無發行者簽章，macOS 僅使用 ad-hoc 簽章、尚未完成 Apple 公證；作業系統可能顯示警告或阻擋安裝／開啟。這些安裝包仍需完成下方所列的平台驗證。
 
@@ -162,7 +162,7 @@ npm run tauri build -- --bundles deb,rpm,appimage
 
 產物位於 `src-tauri/target/release/bundle/`，各平台安裝包應在對應平台建置。正式發行的程式簽章與 macOS notarization 需要另外設定。
 
-Windows MSI 設定為產生 10 種語言的個別安裝包；NSIS 則使用單一安裝程式，啟動時可選擇語言。安裝程式語言與介面語言相同，但不含越南文。
+Windows MSI 提供繁體中文版，使用 code page 950 保留完整中英文公司名稱；NSIS 則使用單一安裝程式，啟動時可選擇 10 種語言（介面語言中除越南文以外的語言）。
 
 ### 發布 GitHub Release
 

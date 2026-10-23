@@ -6,7 +6,7 @@
 
 | 平台 | Release 附件 |
 | --- | --- |
-| Windows x64 | NSIS `.exe`（可選語言）與各語言的 `.msi` |
+| Windows x64 | NSIS `.exe`（可選語言）與繁體中文 `.msi` |
 | macOS Apple Silicon + Intel | 通用版 `.dmg` |
 | Linux x64 (Ubuntu 22.04 build) | `.deb`、`.rpm`、`.AppImage` |
 | 校驗資訊 | `SHA256SUMS.txt` |
@@ -18,9 +18,13 @@ pre-release。已公開的 Release 不會被重跑覆寫，修正請發布新版
 工作流程使用 GitHub 自動提供的 `GITHUB_TOKEN`，不需要自行新增 PAT。
 只有發布工作具有 `contents: write`，建置工作只有讀取權限。
 
+MSI 使用 `src-tauri/installer/zh-TW.wxl` 的繁體中文及 code page 950，
+以保留「伊露科技有限公司 Elu Technology Ltd.」的完整公司名稱。
+WiX 3 的其他語系預設編碼無法全部容納此名稱；其他安裝語言由多語 NSIS EXE 提供。
+
 ## 首次發布流程（以 v0.1.0 為例）
 
-以下保留首次發布 `0.1.0` 的流程範例；目前版本為 `0.2.0`。首次設定時，先把工作流程、檢查腳本與文件提交到 GitHub：
+以下保留首次發布 `0.1.0` 的流程範例；目前版本為 `0.2.1`。首次設定時，先把工作流程、檢查腳本與文件提交到 GitHub：
 
 ```bash
 git add .github scripts/check-release-version.mjs scripts/check-release-version.test.mjs docs/RELEASING.md README.md README.zh-TW.md

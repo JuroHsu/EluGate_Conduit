@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Code page 950 preserves the Traditional Chinese publisher and installer UI. -->
+<WixLocalization Culture="zh-TW" Codepage="950" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="TauriLanguage">1028</String>
+  <String Id="TauriCodepage">950</String>
+  <String Id="LaunchApp">啟動 EluGate Conduit</String>
+  <String Id="DowngradeErrorMessage">已安裝較新版本的 EluGate Conduit。</String>
+  <String Id="PathEnvVarFeature">將 EluGate Conduit 的安裝位置加入 PATH 環境變數，以便從任何位置執行。</String>
+  <String Id="InstallAppFeature">安裝 EluGate Conduit。</String>
+</WixLocalization>

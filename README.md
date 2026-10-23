@@ -16,7 +16,7 @@ Built with **Rust**, **Tauri 2**, **React**, and **TypeScript**, it uses your sy
 
 ![Tunnel management in English](docs/screenshots/tunnels-en.png)
 
-> Version 0.2.0 — early development. Windows 11 is the primary validation platform. macOS and Linux support is implemented but has not been validated end to end. See [status and limitations](#status-and-limitations).
+> Version 0.2.1 — early development. Windows 11 is the primary validation platform. macOS and Linux support is implemented but has not been validated end to end. See [status and limitations](#status-and-limitations).
 >
 > Screenshots show the actual React interface rendered in Chromium with example data and simulated connection states. They do not show live SSH sessions. [Screenshot details](docs/screenshots/README.md).
 
@@ -70,7 +70,7 @@ On Windows, the app prefers the built-in OpenSSH client. You can select another 
 
 Linux x64 packages are built on Ubuntu 22.04 as `.deb`, `.rpm`, and `.AppImage`. They require WebKitGTK 4.1, GTK 3, AppIndicator, and OpenSSH. GNOME needs an AppIndicator extension to display the tray icon. On Linux, use the tray menu to open the main window. Make an AppImage executable and move it to a permanent location before enabling launch at login. Login launches stay in the tray without opening the main window.
 
-Download installers from [GitHub Releases](https://github.com/JuroHsu/EluGate_Conduit/releases) when a release is available. Under **Assets**, choose the Windows x64 `-setup.exe` (language selector), a language-specific `.msi`, or the macOS `_universal.dmg` (Apple Silicon and Intel). The automatically generated **Source code** archives are not installers. If no release is listed yet, build from source using the steps below.
+Download installers from [GitHub Releases](https://github.com/JuroHsu/EluGate_Conduit/releases) when a release is available. Under **Assets**, choose the Windows x64 `-setup.exe` (language selector), the Traditional Chinese `_zh-TW.msi`, or the macOS `_universal.dmg` (Apple Silicon and Intel). The automatically generated **Source code** archives are not installers. If no release is listed yet, build from source using the steps below.
 
 Windows installers are currently unsigned by a publisher; macOS builds use ad-hoc signing without Apple notarization. The operating system may warn about or block installation/opening. These packages still require the platform validation described below.
 
@@ -162,7 +162,7 @@ npm run tauri build -- --bundles deb,rpm,appimage
 
 Bundles are written under `src-tauri/target/release/bundle/`. Build each platform's packages on that platform. Release signing and macOS notarization require separate configuration.
 
-Windows MSI builds are configured for 10 language-specific packages. NSIS uses a single installer with a language selector. The installer languages match the UI languages except Vietnamese.
+Windows MSI builds use Traditional Chinese with code page 950 to preserve the full bilingual company name. NSIS provides a single installer with a selector for 10 languages (all UI languages except Vietnamese).
 
 ### Publish a GitHub Release
 

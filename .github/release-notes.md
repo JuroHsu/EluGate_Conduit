@@ -1,25 +1,23 @@
-## EluGate Conduit v0.2.0
+## EluGate Conduit v0.2.1
 
 ### What's new / 更新內容
 
-- Add Linux x64 DEB, RPM, and AppImage packages, with tray menu integration.
-- Fix English appearing on startup when Traditional Chinese or the system language is selected, and synchronize language changes across windows.
-- Add **SSH Hosts → Add identity file** to generate `~/.ssh/id_ed25519` and its public key without overwriting existing files. Generated keys have no passphrase; add the public key to your server's `authorized_keys`.
-- Add a native file picker for **IdentityFile** when creating or editing SSH hosts.
-- Fix Windows launch-at-login paths containing spaces, repair existing unquoted entries, and respect Windows startup enable/disable state.
+- Correct the Windows installer publisher and executable company name from `com` to **伊露科技有限公司 Elu Technology Ltd.**
+- Traditional Chinese users can install `EluGate-Conduit_0.2.1_x64_zh-TW.msi`. Updating to this version refreshes the publisher shown in Windows Installed apps.
+- MSI is provided in Traditional Chinese to preserve the bilingual publisher with the installer's supported code page. The EXE installer continues to offer all supported installer languages.
+- Includes all v0.2.0 features and fixes, with Windows, macOS, and Linux installers.
 
-- 新增 Linux x64 的 DEB、RPM 與 AppImage 安裝檔，以及系統匣選單整合。
-- 修正選擇繁體中文或跟隨系統時，啟動仍顯示英文的問題，並同步所有視窗的語言變更。
-- 新增「**SSH 主機 → 新增身分檔**」，產生 `~/.ssh/id_ed25519` 與公鑰，不覆寫既有檔案。產生的金鑰未設定密碼；請將公鑰加入伺服器的 `authorized_keys`。
-- 新增／編輯 SSH 主機的 **IdentityFile** 可使用原生檔案選擇器。
-- 修正 Windows 登入啟動路徑含空白時的設定，自動修復既有未加引號項目，並正確讀取 Windows 啟動啟用／停用狀態。
+- 將 Windows 安裝程式的發行者及執行檔公司名稱，從 `com` 修正為 **伊露科技有限公司 Elu Technology Ltd.**。
+- 繁體中文使用者可下載 `EluGate-Conduit_0.2.1_x64_zh-TW.msi`；安裝更新後，Windows「已安裝的應用程式」會顯示修正後的發行者。
+- MSI 提供繁體中文版，使用支援完整中英文公司名稱的編碼，並補齊中文安裝提示；EXE 安裝程式仍保留全部支援的語言。
+- 包含 v0.2.0 的全部功能與修正，並提供 Windows、macOS 與 Linux 安裝檔。
 
 ## Download / 下載安裝檔
 
 | Platform / 平台 | File / 檔案 |
 | --- | --- |
 | Windows 64-bit (recommended / 建議) | `*_x64-setup.exe` — installer with a language selector / 可選擇語言的安裝程式 |
-| Windows 64-bit MSI | `*_x64_*.msi` — select your language, e.g. `zh-TW` or `en-US` / 選擇對應語言 |
+| Windows 64-bit MSI | `*_x64_zh-TW.msi` — Traditional Chinese / 繁體中文版 |
 | macOS Apple Silicon + Intel | `*_universal.dmg` — universal application / 通用版應用程式 |
 | Linux x64 | `.deb`, `.rpm`, `.AppImage` — built on Ubuntu 22.04 / 以 Ubuntu 22.04 建置 |
 

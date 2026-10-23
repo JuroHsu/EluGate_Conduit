@@ -1,7 +1,7 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "EluGate Conduit",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "identifier": "tw.com.elu.conduit",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -46,6 +46,7 @@
   },
   "bundle": {
     "active": true,
+    "publisher": "伊露科技有限公司 Elu Technology Ltd.",
     "targets": [
       "nsis",
       "msi",
@@ -74,18 +75,11 @@
     },
     "windows": {
       "wix": {
-        "language": [
-          "en-US",
-          "zh-TW",
-          "zh-CN",
-          "ja-JP",
-          "ko-KR",
-          "es-ES",
-          "fr-FR",
-          "de-DE",
-          "pt-BR",
-          "ru-RU"
-        ],
+        "language": {
+          "zh-TW": {
+            "localePath": "installer/zh-TW.wxl"
+          }
+        },
         "bannerPath": "installer/wix-banner.bmp",
         "dialogImagePath": "installer/wix-dialog.bmp"
       },
