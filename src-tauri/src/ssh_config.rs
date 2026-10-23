@@ -435,4 +435,18 @@ mod tests {
         let out = apply_form(src, &f).unwrap();
         assert_eq!(out, "Host x\r\n  User y\r\n\r\nHost new\r\n    HostName h\r\n");
     }
+
+    #[tokio::test]
+    async fn selected_identity_with_spaces_round_trips_through_openssh() {
+        let dir = tempfile::tempdir().unwrap();
+        let identity = crate::ssh_key::config_path(&dir.path().join("my keys").join("id_ed25519"));
+        let form = HostForm { alias: "test-host".into(), identity_file: identity.clone(), ..Default::default() };
+        let content = apply_form("", &form).unwrap();
+        assert_eq!(read_form(&content, "test-host").unwrap().identity_file, identity);
+        let path = dir.path().join("config");
+        std::fs::write(&path, content).unwrap();
+        let ssh = crate::ssh_bin::locate(None).unwrap();
+        let fields = effective(&ssh, "test-host", Some(&path)).await.unwrap();
+        assert!(fields.iter().any(|(key, value)| key == "identityfile" && value == &identity));
+    }
 }

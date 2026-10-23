@@ -277,5 +277,20 @@
   "cls.disconnected": "Mất kết nối",
   "cls.unexpected": "ssh kết thúc bất thường",
   "cls.withDetail": "{message}: {detail}",
-  "cls.withExitCode": "{message} (mã thoát {code})"
+  "cls.withExitCode": "{message} (mã thoát {code})",
+
+  "common.chooseFile": "Chọn tệp",
+  "hosts.addIdentity": "Tạo tệp khóa",
+  "hostForm.chooseIdentity": "Chọn khóa riêng SSH",
+  "identity.creating": "Đang tạo…",
+  "identity.created": "Đã tạo tệp khóa",
+  "identity.saved": "Khóa riêng: {private}\nKhóa công khai: {public}",
+  "identity.hint": "Khóa này không có mật khẩu. Thêm khóa công khai bên dưới vào authorized_keys trên máy chủ. Giữ khóa riêng trên máy tính này.",
+  "identity.publicKey": "Khóa công khai",
+  "identity.noHome": "Không tìm thấy thư mục cá nhân.",
+  "identity.keygenMissing": "Không tìm thấy ssh-keygen. Hãy cài OpenSSH hoặc kiểm tra đường dẫn SSH trong Tùy chọn.",
+  "identity.exists": "{path} đã tồn tại và không bị ghi đè.",
+  "identity.timeout": "Đã hết thời gian tạo khóa.",
+  "identity.failed": "Không thể tạo khóa: {error}",
+  "identity.publishFailed": "Không thể tạo {path}. Các tệp hiện có sẽ không bị ghi đè."
 }

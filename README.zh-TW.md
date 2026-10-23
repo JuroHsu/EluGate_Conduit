@@ -16,7 +16,7 @@ EluGate Conduit 是由 **伊露科技有限公司 Elu Technology Ltd.** 開發�
 
 ![繁體中文通道管理介面](docs/screenshots/tunnels-zh-TW.png)
 
-> 目前版本為 0.1.0，處於早期開發階段。Windows 11 為主要驗證平台；macOS 支援已實作，但尚未完成端到端驗證。詳見[目前狀態與限制](#目前狀態與限制)。
+> 目前版本為 0.2.0，處於早期開發階段。Windows 11 為主要驗證平台；macOS 與 Linux 支援已實作，但尚未完成端到端驗證。詳見[目前狀態與限制](#目前狀態與限制)。
 >
 > 截圖使用 Chromium 擷取專案實際 React 介面，搭配範例資料與模擬連線狀態，並非真實 SSH 連線。[截圖說明](docs/screenshots/README.md)。
 
@@ -26,6 +26,7 @@ EluGate Conduit 是由 **伊露科技有限公司 Elu Technology Ltd.** 開發�
 - **系統匣快速操作：**透過小面板控制通道；關閉主視窗後仍維持連線。
 - **沿用 SSH 設定：**透過 OpenSSH 使用 Host 別名、私鑰路徑、SSH agent 驗證與 `ProxyJump` 跳板設定。
 - **SSH 主機編輯器：**以 `ssh -G` 檢視有效設定，儲存前預覽差異、建立備份，並偵測外部修改。
+- **SSH 身分檔：**一鍵產生 `~/.ssh/id_ed25519` 與公鑰，保留既有金鑰；新增或編輯主機時，可用原生檔案選擇器填入 IdentityFile。
 - **分階段診斷：**分別測試 SSH 驗證、本機轉發與目的服務可達性。
 - **自動重連：**符合重試條件的連線失敗，依 2 → 5 → 10 → 20 → 30 → 60 秒間隔重試。
 - **Port 衝突處理：**偵測重疊監聽位址，並提供先停止衝突通道再切換的操作。
@@ -67,11 +68,15 @@ ssh -V
 
 Windows 版優先使用系統內建 OpenSSH。也可以在「**偏好設定 → OpenSSH**」指定其他執行檔。
 
+Linux 發行套件以 Ubuntu 22.04 建置，提供 x64 `.deb`、`.rpm` 與 `.AppImage`。系統需要 WebKitGTK 4.1、GTK 3、AppIndicator 與 OpenSSH。GNOME 需啟用 AppIndicator 擴充功能才能顯示系統匣；Linux 點擊圖示會開啟選單，再選擇「開啟管理介面」。AppImage 請先加上執行權限，移到固定位置後再勾選登入時啟動。登入時啟動只常駐系統匣，不會自動顯示主視窗。
+
 版本發布後，可直接從 [GitHub Releases](https://github.com/JuroHsu/EluGate_Conduit/releases) 的 **Assets** 下載安裝檔：Windows x64 可選擇 `-setup.exe`（可選語言）或對應語言的 `.msi`；macOS 請選擇 `_universal.dmg`（支援 Apple Silicon 與 Intel）。自動產生的 **Source code** 壓縮檔是原始碼，不是安裝程式。若尚未列出 Release，請依下方步驟自行建置。
 
 目前 Windows 安裝檔尚無發行者簽章，macOS 僅使用 ad-hoc 簽章、尚未完成 Apple 公證；作業系統可能顯示警告或阻擋安裝／開啟。這些安裝包仍需完成下方所列的平台驗證。
 
 ### 建立第一條通道
+
+若尚無金鑰，先點選「**SSH 主機 → 新增身分檔**」。程式使用 `ssh-keygen` 產生無密碼的 Ed25519 金鑰，顯示可複製的公鑰與檔案位置；請將公鑰安裝至伺服器的 `authorized_keys`。私鑰留在本機，不會上傳。若任一目標檔已存在，程式會顯示提示並保留原檔。
 
 1. 在「**SSH 主機**」新增 Host 別名，或使用 `~/.ssh/config` 中既有的別名；Windows 路徑為 `%USERPROFILE%\.ssh\config`。
 2. 開啟「**通道 → 新增通道**」，填入下表範例。
@@ -115,6 +120,12 @@ ssh -N -L 127.0.0.1:16000:127.0.0.1:80 demo-web
 
 在 clone 或下載後的原始碼目錄執行：
 
+Ubuntu / Debian 請先安裝原生建置依賴：
+
+```bash
+sudo apt-get install libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev librsvg2-dev libayatana-appindicator3-dev patchelf rpm openssh-client
+```
+
 ```bash
 npm ci
 npm run tauri dev
@@ -128,6 +139,7 @@ npm run tauri dev
 
 ```bash
 npm run build
+npm test
 cargo test --locked --manifest-path src-tauri/Cargo.toml --lib
 ```
 
@@ -143,6 +155,9 @@ npm run tauri build -- --bundles nsis,msi
 
 # macOS
 npm run tauri build -- --bundles app,dmg
+
+# Linux x64
+npm run tauri build -- --bundles deb,rpm,appimage
 ```
 
 產物位於 `src-tauri/target/release/bundle/`，各平台安裝包應在對應平台建置。正式發行的程式簽章與 macOS notarization 需要另外設定。
@@ -151,7 +166,7 @@ Windows MSI 設定為產生 10 種語言的個別安裝包；NSIS 則使用單�
 
 ### 發布 GitHub Release
 
-推送 `v<版本號>` 標籤後，[發布工作流程](.github/workflows/release.yml)會建置 Windows x64 與 macOS 通用版安裝檔。兩個平台都通過後才公開 Release，並附上安裝檔與 SHA-256 校驗清單。在分支上手動執行 Actions，只會產生測試用 artifacts。
+推送 `v<版本號>` 標籤後，[發布工作流程](.github/workflows/release.yml)會建置 Windows x64、macOS 通用版及 Linux x64 安裝檔。三個平台都通過後才公開 Release，並附上安裝檔與 SHA-256 校驗清單。在分支上手動執行 Actions，只會產生測試用 artifacts。
 
 首次設定、版本更新、簽章限制與重跑方式，請參閱[發布指南](docs/RELEASING.md)。
 
@@ -204,7 +219,7 @@ Rust 核心負責所有通道狀態，每條通道使用一個受管理的 OpenS
 - 目前範圍是 **TCP 本機轉發**（`-L`），尚無遠端轉發（`-R`）或動態 SOCKS 轉發（`-D`）介面。
 - 既有專案驗證紀錄包含 Windows 11 上的資料轉發、防止重複連線、port 衝突、切換與失敗恢復、目的服務離線偵測、自動重連、主機指紋提示及程序清理。
 - macOS 行為、密碼／私鑰密碼的實際輸入、多螢幕與不同 DPI 定位、睡眠喚醒、安裝程式執行及簽章，仍需端到端驗證。
-- Linux 目前不是已驗證或已配置的發行目標。
+- Linux 已配置 `.deb`、`.rpm` 與 AppImage 發行目標；不同桌面環境的系統匣、檔案選擇器、登入啟動與 SSH 驗證仍需實機驗證。
 
 ## 參與貢獻
 

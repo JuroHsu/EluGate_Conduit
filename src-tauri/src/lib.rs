@@ -1,4 +1,5 @@
 pub mod askpass;
+mod autostart;
 mod commands;
 pub mod i18n;
 pub mod core;
@@ -7,12 +8,13 @@ mod model;
 mod proc;
 mod ssh_bin;
 mod ssh_config;
+mod ssh_key;
 mod tray;
 mod windows;
 
 use std::sync::Arc;
 
-use tauri::{AppHandle, Manager, RunEvent, WindowEvent};
+use tauri::{AppHandle, Manager, RunEvent, WebviewWindowBuilder, WindowEvent};
 use tauri_plugin_autostart::MacosLauncher;
 
 use crate::core::Core;
@@ -36,6 +38,7 @@ pub fn run() {
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| windows::show_main(app)))
         .plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, Some(vec![AUTOSTART_ARG])))
         .plugin(tauri_plugin_opener::init())
+        .plugin(tauri_plugin_dialog::init())
         .setup(|app| {
             let handle = app.handle().clone();
             let data_dir = app.path().app_data_dir()?;
@@ -43,7 +46,15 @@ pub fn run() {
             std::fs::create_dir_all(&data_dir)?;
             let core = Core::new(handle.clone(), data_dir, log_dir);
             app.manage(core.clone());
+            if let Err(e) = autostart::repair_existing(&handle) {
+                core.log(crate::logs::Level::Warn, None, crate::tr!("err.autostart", error = e));
+            }
             tray::build(&handle)?;
+            // Webviews can invoke commands as soon as they load. Initialize preferences,
+            // language and managed state before creating either window.
+            for config in &app.config().app.windows {
+                WebviewWindowBuilder::from_config(&handle, config)?.build()?;
+            }
             tauri::async_runtime::spawn(async move {
                 core.init().await;
                 core.emit_state();
@@ -98,6 +109,8 @@ pub fn run() {
             commands::preview_host_form,
             commands::preview_ssh_config,
             commands::save_ssh_config,
+            commands::generate_identity,
+            commands::select_identity_file,
             commands::get_env,
             commands::set_prefs,
             commands::set_autostart,

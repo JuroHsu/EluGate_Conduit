@@ -16,7 +16,7 @@ Built with **Rust**, **Tauri 2**, **React**, and **TypeScript**, it uses your sy
 
 ![Tunnel management in English](docs/screenshots/tunnels-en.png)
 
-> Version 0.1.0 — early development. Windows 11 is the primary validation platform. macOS support is implemented but has not been validated end to end. See [status and limitations](#status-and-limitations).
+> Version 0.2.0 — early development. Windows 11 is the primary validation platform. macOS and Linux support is implemented but has not been validated end to end. See [status and limitations](#status-and-limitations).
 >
 > Screenshots show the actual React interface rendered in Chromium with example data and simulated connection states. They do not show live SSH sessions. [Screenshot details](docs/screenshots/README.md).
 
@@ -26,6 +26,7 @@ Built with **Rust**, **Tauri 2**, **React**, and **TypeScript**, it uses your sy
 - **Quick access:** control tunnels from the system tray panel; closing the main window keeps connections running.
 - **Existing SSH configuration:** use Host aliases, identity files, SSH agent authentication, and `ProxyJump` through OpenSSH.
 - **Host editor:** inspect effective settings with `ssh -G`, preview changes, and create a backup before saving. Detects external file changes.
+- **SSH identity files:** generate `~/.ssh/id_ed25519` and its public key without replacing existing keys; select IdentityFile with a native file picker when adding or editing a host.
 - **Connection diagnostics:** test SSH authentication, local forwarding, and destination reachability as separate stages.
 - **Automatic reconnect:** retry eligible connection failures with a 2 → 5 → 10 → 20 → 30 → 60 second backoff.
 - **Port conflict handling:** detect overlapping listeners and offer to stop a conflicting managed tunnel before switching.
@@ -67,11 +68,15 @@ ssh -V
 
 On Windows, the app prefers the built-in OpenSSH client. You can select another executable under **Preferences → OpenSSH**.
 
+Linux x64 packages are built on Ubuntu 22.04 as `.deb`, `.rpm`, and `.AppImage`. They require WebKitGTK 4.1, GTK 3, AppIndicator, and OpenSSH. GNOME needs an AppIndicator extension to display the tray icon. On Linux, use the tray menu to open the main window. Make an AppImage executable and move it to a permanent location before enabling launch at login. Login launches stay in the tray without opening the main window.
+
 Download installers from [GitHub Releases](https://github.com/JuroHsu/EluGate_Conduit/releases) when a release is available. Under **Assets**, choose the Windows x64 `-setup.exe` (language selector), a language-specific `.msi`, or the macOS `_universal.dmg` (Apple Silicon and Intel). The automatically generated **Source code** archives are not installers. If no release is listed yet, build from source using the steps below.
 
 Windows installers are currently unsigned by a publisher; macOS builds use ad-hoc signing without Apple notarization. The operating system may warn about or block installation/opening. These packages still require the platform validation described below.
 
 ### Create your first tunnel
+
+If you need a key, choose **SSH Hosts → Add identity file**. The app uses `ssh-keygen` to create an Ed25519 key without a passphrase and shows the public key and file locations. Add the public key to the server's `authorized_keys`; the private key stays on this computer and is never uploaded. If either target file already exists, the app preserves it and shows a message.
 
 1. Add a Host alias in **SSH Hosts**, or use one already present in `~/.ssh/config` (`%USERPROFILE%\.ssh\config` on Windows).
 2. Open **Tunnels → New tunnel** and enter the values below.
@@ -115,6 +120,12 @@ Install a maintained Node.js LTS release compatible with Vite 5 (Node.js 22+ rec
 
 From a cloned or downloaded source directory:
 
+On Ubuntu / Debian, install the native build dependencies first:
+
+```bash
+sudo apt-get install libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev librsvg2-dev libayatana-appindicator3-dev patchelf rpm openssh-client
+```
+
 ```bash
 npm ci
 npm run tauri dev
@@ -128,6 +139,7 @@ Run these from the repository root:
 
 ```bash
 npm run build
+npm test
 cargo test --locked --manifest-path src-tauri/Cargo.toml --lib
 ```
 
@@ -143,6 +155,9 @@ npm run tauri build -- --bundles nsis,msi
 
 # macOS
 npm run tauri build -- --bundles app,dmg
+
+# Linux x64
+npm run tauri build -- --bundles deb,rpm,appimage
 ```
 
 Bundles are written under `src-tauri/target/release/bundle/`. Build each platform's packages on that platform. Release signing and macOS notarization require separate configuration.
@@ -151,7 +166,7 @@ Windows MSI builds are configured for 10 language-specific packages. NSIS uses a
 
 ### Publish a GitHub Release
 
-The [release workflow](.github/workflows/release.yml) builds Windows x64 and macOS universal installers when a `v<version>` tag is pushed. It publishes the Release only after both platforms pass, with installers and SHA-256 checksums attached. A manual Actions run on a branch produces test artifacts without publishing.
+The [release workflow](.github/workflows/release.yml) builds Windows x64, macOS universal, and Linux x64 installers when a `v<version>` tag is pushed. It publishes the Release only after all three platforms pass, with installers and SHA-256 checksums attached. A manual Actions run on a branch produces test artifacts without publishing.
 
 See the [release guide](docs/RELEASING.md) for first-time setup, version updates, signing limitations, and retries.
 
@@ -204,7 +219,7 @@ Logs can include host names, user names, file paths, and network addresses. Revi
 - Current scope is **local TCP forwarding** (`-L`); there is no remote forwarding (`-R`) or dynamic SOCKS forwarding (`-D`) UI.
 - Previous project validation records Windows 11 testing for data forwarding, duplicate connection prevention, port conflicts, switching and recovery, destination failure detection, reconnection, host key prompts, and process cleanup.
 - macOS behavior, actual password/passphrase entry, multi-monitor and DPI positioning, sleep/resume, installer execution, and signing still need end-to-end validation.
-- Linux is not currently a validated or configured release target.
+- Linux has `.deb`, `.rpm`, and AppImage release targets; tray integration, native file selection, launch at login, and SSH authentication still need validation across desktop environments.
 
 ## Contributing
 

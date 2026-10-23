@@ -1,6 +1,7 @@
 import { createContext, Fragment, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { listen } from "@tauri-apps/api/event";
+import { syncLanguage } from "./language-sync";
 
 /** 語系檔位於專案根目錄的 locales/，Rust 核心與介面共用；此處自動載入所有檔案 */
 const BUNDLES: Record<string, Record<string, string>> = Object.fromEntries(
@@ -59,15 +60,11 @@ function make(lang: string): I18n {
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [lang, setLang] = useState<string | null>(null);
-  useEffect(() => {
-    invoke<string>("get_language")
-      .then(setLang)
-      .catch(() => setLang("en"));
-    const un = listen<string>("language-changed", (e) => setLang(e.payload));
-    return () => {
-      un.then((f) => f());
-    };
-  }, []);
+  useEffect(() => syncLanguage(
+    () => invoke<string>("get_language"),
+    (onChange) => listen<string>("language-changed", (e) => onChange(e.payload)),
+    setLang,
+  ), []);
   useEffect(() => {
     if (lang) document.documentElement.lang = lang;
   }, [lang]);

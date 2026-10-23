@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { api, errMsg, type HostForm, type HostList, type Preview } from "../api";
-import { Modal } from "../components/Modal";
+import { api, errMsg, type HostForm, type HostList, type Preview, type Identity } from "../api";
+import { Modal, MessageDialog } from "../components/Modal";
 import { useI18n } from "../i18n";
 
 const EMPTY_FORM: HostForm = { alias: "", hostName: "", user: "", port: "", identityFile: "", proxyJump: "" };
@@ -15,6 +15,20 @@ export function HostsPage() {
   const [form, setForm] = useState<{ form: HostForm; isNew: boolean } | null>(null);
   const [rawEdit, setRawEdit] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [generating, setGenerating] = useState(false);
+  const [identity, setIdentity] = useState<Identity | null>(null);
+
+  const generateIdentity = async () => {
+    setGenerating(true);
+    setError(null);
+    try {
+      setIdentity(await api.generateIdentity());
+    } catch (e) {
+      setError(errMsg(e));
+    } finally {
+      setGenerating(false);
+    }
+  };
 
   const load = useCallback(() => {
     api
@@ -52,6 +66,9 @@ export function HostsPage() {
           <p className="muted">{tx("hosts.subtitle", { cmd: <code>ssh -G</code> })}</p>
         </div>
         <div className="row gap">
+          <button disabled={generating} onClick={generateIdentity}>
+            {t(generating ? "identity.creating" : "hosts.addIdentity")}
+          </button>
           <button onClick={() => setRawEdit(true)}>{t("hosts.rawEdit")}</button>
           <button className="primary" onClick={() => setForm({ form: { ...EMPTY_FORM }, isNew: true })}>
             {t("hosts.add")}
@@ -73,6 +90,13 @@ export function HostsPage() {
       </div>
       {list && !list.exists && <div className="notice info">{t("hosts.notExist")}</div>}
       {error && <div className="notice error">{error}</div>}
+      {identity && (
+        <MessageDialog title={t("identity.created")} onClose={() => setIdentity(null)}>
+          <p className="identity-paths">{t("identity.saved", { private: identity.privatePath, public: identity.publicPath })}</p>
+          <p>{t("identity.hint")}</p>
+          <textarea className="public-key mono" readOnly value={identity.publicKey} aria-label={t("identity.publicKey")} onFocus={(e) => e.target.select()} />
+        </MessageDialog>
+      )}
 
       <div className="split">
         <div className="list" role="listbox" aria-label={t("hosts.listLabel")}>
@@ -169,9 +193,23 @@ function HostFormDialog({
 }) {
   const { t } = useI18n();
   const [f, setF] = useState(initial);
+  const [picking, setPicking] = useState(false);
   const [preview, setPreview] = useState<Preview | null>(null);
   const [error, setError] = useState<string | null>(null);
   const set = (k: keyof HostForm, v: string) => setF((x) => ({ ...x, [k]: v }));
+
+  const pickIdentity = async () => {
+    setPicking(true);
+    setError(null);
+    try {
+      const selected = await api.selectIdentityFile();
+      if (selected !== null) set("identityFile", selected);
+    } catch (e) {
+      setError(errMsg(e));
+    } finally {
+      setPicking(false);
+    }
+  };
 
   const next = async () => {
     setError(null);
@@ -223,7 +261,13 @@ function HostFormDialog({
           {input("user", "User", t("hostForm.userPlaceholder"))}
           {input("port", "Port", "22")}
         </div>
-        {input("identityFile", "IdentityFile", "~/.ssh/id_ed25519")}
+        <div className="field">
+          <label className="field-label" htmlFor="identity-file">IdentityFile</label>
+          <div className="row gap">
+            <input id="identity-file" className="grow" value={f.identityFile} placeholder="~/.ssh/id_ed25519" spellCheck={false} onChange={(e) => set("identityFile", e.target.value)} />
+            <button type="button" disabled={picking} onClick={pickIdentity}>{t("common.chooseFile")}</button>
+          </div>
+        </div>
         {input("proxyJump", "ProxyJump", t("hostForm.proxyJumpPlaceholder"))}
         <p className="muted small">{t("hostForm.emptyHint")}</p>
       </div>

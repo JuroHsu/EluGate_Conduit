@@ -277,5 +277,20 @@
   "cls.disconnected": "連線中斷",
   "cls.unexpected": "ssh 非預期結束",
   "cls.withDetail": "{message}：{detail}",
-  "cls.withExitCode": "{message}（結束碼 {code}）"
+  "cls.withExitCode": "{message}（結束碼 {code}）",
+
+  "common.chooseFile": "選擇檔案",
+  "hosts.addIdentity": "新增身分檔",
+  "hostForm.chooseIdentity": "選擇 SSH 私鑰",
+  "identity.creating": "正在產生…",
+  "identity.created": "身分檔已建立",
+  "identity.saved": "私鑰：{private}\n公鑰：{public}",
+  "identity.hint": "此金鑰未設定密碼。請將下方公鑰加入伺服器的 authorized_keys，私鑰請保留在這台電腦。",
+  "identity.publicKey": "公鑰",
+  "identity.noHome": "無法找到使用者家目錄。",
+  "identity.keygenMissing": "找不到 ssh-keygen。請安裝 OpenSSH，或檢查偏好設定中的 SSH 路徑。",
+  "identity.exists": "{path} 已存在，未覆寫原有檔案。",
+  "identity.timeout": "產生金鑰逾時。",
+  "identity.failed": "產生金鑰失敗：{error}",
+  "identity.publishFailed": "無法建立 {path}，不會覆寫既有檔案。"
 }

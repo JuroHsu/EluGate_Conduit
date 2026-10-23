@@ -277,5 +277,20 @@
   "cls.disconnected": "Verbindung unterbrochen",
   "cls.unexpected": "ssh wurde unerwartet beendet",
   "cls.withDetail": "{message}: {detail}",
-  "cls.withExitCode": "{message} (Exitcode {code})"
+  "cls.withExitCode": "{message} (Exitcode {code})",
+
+  "common.chooseFile": "Datei auswählen",
+  "hosts.addIdentity": "Schlüsseldatei erstellen",
+  "hostForm.chooseIdentity": "Privaten SSH-Schlüssel auswählen",
+  "identity.creating": "Wird erstellt…",
+  "identity.created": "Schlüsseldatei erstellt",
+  "identity.saved": "Privater Schlüssel: {private}\nÖffentlicher Schlüssel: {public}",
+  "identity.hint": "Dieser Schlüssel hat keine Passphrase. Füge den öffentlichen Schlüssel unten zu authorized_keys auf dem Server hinzu. Bewahre den privaten Schlüssel auf diesem Computer auf.",
+  "identity.publicKey": "Öffentlicher Schlüssel",
+  "identity.noHome": "Das Benutzerverzeichnis wurde nicht gefunden.",
+  "identity.keygenMissing": "ssh-keygen wurde nicht gefunden. Installiere OpenSSH oder prüfe den SSH-Pfad in den Einstellungen.",
+  "identity.exists": "{path} ist bereits vorhanden und wurde nicht überschrieben.",
+  "identity.timeout": "Zeitüberschreitung bei der Schlüsselerstellung.",
+  "identity.failed": "Schlüsselerstellung fehlgeschlagen: {error}",
+  "identity.publishFailed": "{path} konnte nicht erstellt werden. Vorhandene Dateien werden nicht überschrieben."
 }

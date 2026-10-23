@@ -8,15 +8,18 @@ export function PrefsPage() {
   const [prefs, setPrefs] = useState<Prefs>({});
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [autostartBusy, setAutostartBusy] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const reload = () => {
     api.getEnv().then(setEnv).catch((e) => setError(errMsg(e)));
-    api.getPrefs().then(setPrefs);
+    api.getPrefs().then(setPrefs).catch((e) => setError(errMsg(e)));
   };
   useEffect(reload, []);
 
   const persist = async (next: Prefs) => {
     setError(null);
+    setSaving(true);
     try {
       await api.setPrefs({
         sshPath: next.sshPath?.trim() || null,
@@ -28,6 +31,8 @@ export function PrefsPage() {
     } catch (e) {
       setError(errMsg(e));
       return false;
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -40,11 +45,15 @@ export function PrefsPage() {
   };
 
   const toggleAutostart = async (on: boolean) => {
+    setAutostartBusy(true);
+    setError(null);
     try {
       await api.setAutostart(on);
-      reload();
+      setEnv(await api.getEnv());
     } catch (e) {
       setError(errMsg(e));
+    } finally {
+      setAutostartBusy(false);
     }
   };
 
@@ -61,6 +70,7 @@ export function PrefsPage() {
         {/* 語言變更立即套用到所有視窗與系統匣 */}
         <select
           className="lang-select"
+          disabled={saving}
           value={prefs.language ?? ""}
           aria-label={t("prefs.language")}
           onChange={(e) => persist({ ...prefs, language: e.target.value || null })}
@@ -77,7 +87,7 @@ export function PrefsPage() {
       <section className="card">
         <h2>{t("prefs.startup")}</h2>
         <label className="check">
-          <input type="checkbox" checked={env?.autostart ?? false} onChange={(e) => toggleAutostart(e.target.checked)} />
+          <input type="checkbox" checked={env?.autostart ?? false} disabled={!env || autostartBusy} onChange={(e) => toggleAutostart(e.target.checked)} />
           {t("prefs.autostart", { place: t(env?.platform === "macos" ? "prefs.placeMenubar" : "prefs.placeTray") })}
         </label>
         <p className="muted small">{t("prefs.autostartHint")}</p>

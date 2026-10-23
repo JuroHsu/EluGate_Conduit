@@ -24,7 +24,8 @@ static CURRENT: RwLock<&'static str> = RwLock::new("en");
 
 /// 將系統或使用者指定的語系代碼對應到支援的語系
 pub fn normalize(tag: &str) -> &'static str {
-    let t = tag.to_ascii_lowercase().replace('_', "-");
+    // POSIX locales may carry an encoding/modifier, e.g. zh_TW.UTF-8.
+    let t = tag.trim().split(['.', '@']).next().unwrap_or("").to_ascii_lowercase().replace('_', "-");
     if t.starts_with("zh") {
         if t.contains("hant") || t.ends_with("-tw") || t.ends_with("-hk") || t.ends_with("-mo") {
             "zh-TW"
@@ -106,6 +107,9 @@ mod tests {
     fn normalizes_tags() {
         assert_eq!(normalize("zh-Hant-TW"), "zh-TW");
         assert_eq!(normalize("zh_HK"), "zh-TW");
+        assert_eq!(normalize("zh_TW.UTF-8"), "zh-TW");
+        assert_eq!(normalize("zh_HK.UTF-8@variant"), "zh-TW");
+        assert_eq!(normalize("zh-MO"), "zh-TW");
         assert_eq!(normalize("zh-CN"), "zh-CN");
         assert_eq!(normalize("ja-JP"), "ja");
         assert_eq!(normalize("ko-KR"), "ko");

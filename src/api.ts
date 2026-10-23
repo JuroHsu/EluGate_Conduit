@@ -99,6 +99,12 @@ export interface HostForm {
   proxyJump: string;
 }
 
+export interface Identity {
+  privatePath: string;
+  publicPath: string;
+  publicKey: string;
+}
+
 export interface FileSnapshot {
   path: string;
   exists: boolean;
@@ -168,6 +174,8 @@ export const api = {
   getEnv: () => invoke<EnvInfo>("get_env"),
   setPrefs: (prefs: Prefs) => invoke<void>("set_prefs", { prefs }),
   setAutostart: (enabled: boolean) => invoke<void>("set_autostart", { enabled }),
+  generateIdentity: () => invoke<Identity>("generate_identity"),
+  selectIdentityFile: () => invoke<string | null>("select_identity_file"),
   getPrompt: (id: string) => invoke<Prompt | null>("get_prompt", { id }),
   answerPrompt: (id: string, value: string | null) => invoke<boolean>("answer_prompt", { id, value }),
   showMain: () => invoke<void>("show_main"),

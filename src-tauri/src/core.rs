@@ -295,12 +295,13 @@ impl Core {
     }
 
     fn persist(&self, f: impl FnOnce(&mut AppConfig)) -> CmdResult<()> {
-        let snapshot = {
+        {
             let mut cfg = self.cfg.lock().unwrap();
-            f(&mut cfg);
-            cfg.clone()
-        };
-        self.store.save(&snapshot)?;
+            let mut next = cfg.clone();
+            f(&mut next);
+            self.store.save(&next)?;
+            *cfg = next;
+        }
         self.emit_state();
         Ok(())
     }
@@ -358,13 +359,15 @@ impl Core {
 
     pub fn set_prefs(&self, prefs: model::Prefs) -> CmdResult<()> {
         let old = crate::i18n::current();
-        let lang = crate::i18n::set_language(prefs.language.as_deref());
+        let language = prefs.language.clone();
         self.persist(|cfg| cfg.prefs = prefs)?;
+        let lang = crate::i18n::set_language(language.as_deref());
         if lang != old {
             crate::tray::refresh_language(&self.app);
             self.emit_state();
-            let _ = self.app.emit("language-changed", lang);
         }
+        // Also resynchronize windows when selecting the already active language.
+        let _ = self.app.emit("language-changed", lang);
         Ok(())
     }
 

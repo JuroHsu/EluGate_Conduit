@@ -34,6 +34,12 @@ jobs:
             targets: aarch64-apple-darwin x86_64-apple-darwin
             args: --target universal-apple-darwin --bundles dmg
             bundles: src-tauri/target/universal-apple-darwin/release/bundle
+          - name: Linux x64
+            os: ubuntu-22.04
+            artifact: linux-x64
+            targets: x86_64-unknown-linux-gnu
+            args: --bundles deb,rpm,appimage
+            bundles: src-tauri/target/release/bundle
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     defaults:
@@ -63,8 +69,16 @@ jobs:
       - name: Install frontend dependencies
         run: npm ci
 
+      - name: Install Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev librsvg2-dev libayatana-appindicator3-dev patchelf rpm openssh-client
+
       - name: Check and build frontend
-        run: npm run build
+        run: |
+          npm test
+          npm run build
 
       - name: Test Rust core
         run: cargo test --locked --manifest-path src-tauri/Cargo.toml --lib
@@ -73,6 +87,7 @@ jobs:
         env:
           # Ad-hoc signing for macOS; this is not Developer ID signing/notarization.
           APPLE_SIGNING_IDENTITY: ${{ runner.os == 'macOS' && '-' || '' }}
+          APPIMAGE_EXTRACT_AND_RUN: "1"
         run: npm run tauri build -- --ci ${{ matrix.args }} -- --locked
 
       - name: Save installers
@@ -83,6 +98,9 @@ jobs:
             ${{ matrix.bundles }}/nsis/*.exe
             ${{ matrix.bundles }}/msi/*.msi
             ${{ matrix.bundles }}/dmg/*.dmg
+            ${{ matrix.bundles }}/deb/*.deb
+            ${{ matrix.bundles }}/rpm/*.rpm
+            ${{ matrix.bundles }}/appimage/*.AppImage
           if-no-files-found: error
           compression-level: 0
           retention-days: 14
@@ -125,10 +143,13 @@ jobs:
             name="${name// /-}"
             test ! -e "release-assets/$name"
             cp -- "$source" "release-assets/$name"
-          done < <(find release-artifacts -type f \( -name '*.exe' -o -name '*.msi' -o -name '*.dmg' \) -print0)
+          done < <(find release-artifacts -type f \( -name '*.exe' -o -name '*.msi' -o -name '*.dmg' -o -name '*.deb' -o -name '*.rpm' -o -name '*.AppImage' \) -print0)
           test -n "$(find release-assets -maxdepth 1 -name '*.exe' -print -quit)"
           test -n "$(find release-assets -maxdepth 1 -name '*.msi' -print -quit)"
           test -n "$(find release-assets -maxdepth 1 -name '*.dmg' -print -quit)"
+          test -n "$(find release-assets -maxdepth 1 -name '*.deb' -print -quit)"
+          test -n "$(find release-assets -maxdepth 1 -name '*.rpm' -print -quit)"
+          test -n "$(find release-assets -maxdepth 1 -name '*.AppImage' -print -quit)"
           cd release-assets
           sha256sum -- * > SHA256SUMS.txt
 

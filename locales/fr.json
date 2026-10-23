@@ -277,5 +277,20 @@
   "cls.disconnected": "Connexion perdue",
   "cls.unexpected": "ssh s'est arrêté de façon inattendue",
   "cls.withDetail": "{message} : {detail}",
-  "cls.withExitCode": "{message} (code de sortie {code})"
+  "cls.withExitCode": "{message} (code de sortie {code})",
+
+  "common.chooseFile": "Choisir un fichier",
+  "hosts.addIdentity": "Créer un fichier d’identité",
+  "hostForm.chooseIdentity": "Choisir une clé privée SSH",
+  "identity.creating": "Création…",
+  "identity.created": "Fichier d’identité créé",
+  "identity.saved": "Clé privée : {private}\nClé publique : {public}",
+  "identity.hint": "Cette clé n’a pas de phrase secrète. Ajoutez la clé publique ci-dessous au fichier authorized_keys du serveur. Conservez la clé privée sur cet ordinateur.",
+  "identity.publicKey": "Clé publique",
+  "identity.noHome": "Impossible de trouver votre dossier personnel.",
+  "identity.keygenMissing": "ssh-keygen est introuvable. Installez OpenSSH ou vérifiez le chemin SSH dans les préférences.",
+  "identity.exists": "{path} existe déjà et n’a pas été écrasé.",
+  "identity.timeout": "La génération de la clé a expiré.",
+  "identity.failed": "Échec de la génération de la clé : {error}",
+  "identity.publishFailed": "Impossible de créer {path}. Les fichiers existants ne seront pas écrasés."
 }

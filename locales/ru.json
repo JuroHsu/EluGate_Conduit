@@ -277,5 +277,20 @@
   "cls.disconnected": "Соединение потеряно",
   "cls.unexpected": "ssh неожиданно завершился",
   "cls.withDetail": "{message}: {detail}",
-  "cls.withExitCode": "{message} (код выхода {code})"
+  "cls.withExitCode": "{message} (код выхода {code})",
+
+  "common.chooseFile": "Выбрать файл",
+  "hosts.addIdentity": "Создать файл ключа",
+  "hostForm.chooseIdentity": "Выбрать закрытый ключ SSH",
+  "identity.creating": "Создание…",
+  "identity.created": "Файл ключа создан",
+  "identity.saved": "Закрытый ключ: {private}\nОткрытый ключ: {public}",
+  "identity.hint": "Этот ключ не защищён паролем. Добавьте открытый ключ ниже в authorized_keys на сервере. Храните закрытый ключ на этом компьютере.",
+  "identity.publicKey": "Открытый ключ",
+  "identity.noHome": "Не удалось найти домашнюю папку.",
+  "identity.keygenMissing": "ssh-keygen не найден. Установите OpenSSH или проверьте путь SSH в настройках.",
+  "identity.exists": "{path} уже существует и не был перезаписан.",
+  "identity.timeout": "Время создания ключа истекло.",
+  "identity.failed": "Не удалось создать ключ: {error}",
+  "identity.publishFailed": "Не удалось создать {path}. Существующие файлы не будут перезаписаны."
 }

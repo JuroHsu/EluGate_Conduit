@@ -5,7 +5,7 @@ use std::sync::Arc;
 
 use serde::Serialize;
 use tauri::{AppHandle, State};
-use tauri_plugin_autostart::ManagerExt;
+use tauri_plugin_dialog::DialogExt;
 use tauri_plugin_opener::OpenerExt;
 
 use crate::askpass::Prompt;
@@ -190,6 +190,28 @@ pub async fn save_ssh_config(
 
 // ───────────── 環境與偏好 ─────────────
 
+#[tauri::command]
+pub async fn generate_identity(core: Core_<'_>) -> CmdResult<crate::ssh_key::Identity> {
+    let prefs = core.config().prefs;
+    Ok(crate::ssh_key::generate(prefs.ssh_path.as_deref()).await?)
+}
+
+#[tauri::command]
+pub async fn select_identity_file(app: AppHandle, window: tauri::WebviewWindow) -> CmdResult<Option<String>> {
+    let dir = crate::ssh_key::ssh_dir()?;
+    let (tx, rx) = tokio::sync::oneshot::channel();
+    app.dialog().file()
+        .set_parent(&window)
+        .set_title(crate::tr!("hostForm.chooseIdentity"))
+        .set_directory(dir)
+        .pick_file(move |file| { let _ = tx.send(file); });
+    let file = rx.await.map_err(|e| CmdError::new("error", e.to_string()))?;
+    file.map(|file| file.into_path()
+        .map(|path| crate::ssh_key::config_path(&path))
+        .map_err(|e| CmdError::new("error", e.to_string())))
+        .transpose()
+}
+
 #[derive(Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EnvInfo {
@@ -210,7 +232,8 @@ pub async fn get_env(app: AppHandle, core: Core_<'_>) -> CmdResult<EnvInfo> {
         data_dir: core.data_dir.display().to_string(),
         log_dir: core.logger.dir.display().to_string(),
         default_config: ssh_config::default_path().display().to_string(),
-        autostart: app.autolaunch().is_enabled().unwrap_or(false),
+        autostart: crate::autostart::is_enabled(&app)
+            .map_err(|e| CmdError::new("error", crate::tr!("err.autostart", error = e)))?,
         version: app.package_info().version.to_string(),
         platform: std::env::consts::OS,
     })
@@ -223,9 +246,8 @@ pub fn set_prefs(core: Core_, prefs: Prefs) -> CmdResult<()> {
 
 #[tauri::command]
 pub fn set_autostart(app: AppHandle, enabled: bool) -> CmdResult<()> {
-    let a = app.autolaunch();
-    let r = if enabled { a.enable() } else { a.disable() };
-    r.map_err(|e| CmdError::new("error", crate::tr!("err.autostart", error = e)))
+    crate::autostart::set(&app, enabled)
+        .map_err(|e| CmdError::new("error", crate::tr!("err.autostart", error = e)))
 }
 
 // ───────────── 驗證互動 ─────────────

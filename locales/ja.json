@@ -277,5 +277,20 @@
   "cls.disconnected": "接続が切断されました",
   "cls.unexpected": "ssh が予期せず終了しました",
   "cls.withDetail": "{message}：{detail}",
-  "cls.withExitCode": "{message}（終了コード {code}）"
+  "cls.withExitCode": "{message}（終了コード {code}）",
+
+  "common.chooseFile": "ファイルを選択",
+  "hosts.addIdentity": "秘密鍵を作成",
+  "hostForm.chooseIdentity": "SSH 秘密鍵を選択",
+  "identity.creating": "作成中…",
+  "identity.created": "秘密鍵を作成しました",
+  "identity.saved": "秘密鍵：{private}\n公開鍵：{public}",
+  "identity.hint": "この鍵にはパスフレーズがありません。以下の公開鍵をサーバーの authorized_keys に追加してください。秘密鍵はこのコンピューターに保管してください。",
+  "identity.publicKey": "公開鍵",
+  "identity.noHome": "ホームディレクトリが見つかりません。",
+  "identity.keygenMissing": "ssh-keygen が見つかりません。OpenSSH をインストールするか、設定の SSH パスを確認してください。",
+  "identity.exists": "{path} は既に存在します。上書きしていません。",
+  "identity.timeout": "鍵の作成がタイムアウトしました。",
+  "identity.failed": "鍵の作成に失敗しました：{error}",
+  "identity.publishFailed": "{path} を作成できません。既存のファイルは上書きしません。"
 }

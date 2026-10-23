@@ -47,7 +47,8 @@ pub fn build(app: &AppHandle) -> tauri::Result<()> {
         .icon(icon(Overall::Idle))
         .tooltip(format!("EluGate Conduit — {}", tr!("tray.idle")))
         .menu(&menu(app)?)
-        .show_menu_on_left_click(false)
+        // Linux indicators expose menus, but do not deliver tray click events.
+        .show_menu_on_left_click(cfg!(target_os = "linux"))
         .on_menu_event(|app, e| match e.id().as_ref() {
             "open" => crate::windows::show_main(app),
             "stop_all" => {

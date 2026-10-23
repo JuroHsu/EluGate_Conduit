@@ -197,6 +197,15 @@ input:disabled {
 .grow {
   flex: 1;
 }
+.public-key {
+  width: 100%;
+  min-height: 100px;
+  overflow-wrap: anywhere;
+}
+.identity-paths {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
 .spacer {
   flex: 1;
 }

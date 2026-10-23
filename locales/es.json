@@ -277,5 +277,20 @@
   "cls.disconnected": "Conexión perdida",
   "cls.unexpected": "ssh terminó de forma inesperada",
   "cls.withDetail": "{message}: {detail}",
-  "cls.withExitCode": "{message} (código de salida {code})"
+  "cls.withExitCode": "{message} (código de salida {code})",
+
+  "common.chooseFile": "Elegir archivo",
+  "hosts.addIdentity": "Crear archivo de identidad",
+  "hostForm.chooseIdentity": "Seleccionar clave privada SSH",
+  "identity.creating": "Creando…",
+  "identity.created": "Archivo de identidad creado",
+  "identity.saved": "Clave privada: {private}\nClave pública: {public}",
+  "identity.hint": "Esta clave no tiene contraseña. Añade la clave pública de abajo a authorized_keys del servidor. Conserva la clave privada en este equipo.",
+  "identity.publicKey": "Clave pública",
+  "identity.noHome": "No se pudo encontrar tu carpeta personal.",
+  "identity.keygenMissing": "No se encontró ssh-keygen. Instala OpenSSH o revisa la ruta SSH en Preferencias.",
+  "identity.exists": "{path} ya existe y no se ha sobrescrito.",
+  "identity.timeout": "Se agotó el tiempo de generación de la clave.",
+  "identity.failed": "Error al generar la clave: {error}",
+  "identity.publishFailed": "No se pudo crear {path}. No se sobrescribirán archivos existentes."
 }

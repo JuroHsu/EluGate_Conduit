@@ -1,7 +1,7 @@
 {
   "name": "elugate-conduit",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A desktop SSH tunnel manager built with Tauri, Rust, and React.",
   "license": "MIT",
   "author": {
@@ -11,6 +11,7 @@
   },
   "type": "module",
   "scripts": {
+    "test": "node --test scripts/*.test.mjs",
     "dev": "vite",
     "build": "tsc && vite build",
     "tauri": "tauri",

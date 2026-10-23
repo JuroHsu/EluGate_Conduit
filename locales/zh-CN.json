@@ -277,5 +277,20 @@
   "cls.disconnected": "连接中断",
   "cls.unexpected": "ssh 意外退出",
   "cls.withDetail": "{message}：{detail}",
-  "cls.withExitCode": "{message}（退出码 {code}）"
+  "cls.withExitCode": "{message}（退出码 {code}）",
+
+  "common.chooseFile": "选择文件",
+  "hosts.addIdentity": "新增身份文件",
+  "hostForm.chooseIdentity": "选择 SSH 私钥",
+  "identity.creating": "正在生成…",
+  "identity.created": "身份文件已创建",
+  "identity.saved": "私钥：{private}\n公钥：{public}",
+  "identity.hint": "此密钥未设置密码。请将下方公钥加入服务器的 authorized_keys，私钥请保留在这台电脑。",
+  "identity.publicKey": "公钥",
+  "identity.noHome": "无法找到用户主目录。",
+  "identity.keygenMissing": "找不到 ssh-keygen。请安装 OpenSSH，或检查偏好设置中的 SSH 路径。",
+  "identity.exists": "{path} 已存在，未覆盖原有文件。",
+  "identity.timeout": "生成密钥超时。",
+  "identity.failed": "生成密钥失败：{error}",
+  "identity.publishFailed": "无法创建 {path}，不会覆盖现有文件。"
 }

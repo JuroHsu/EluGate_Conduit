@@ -8,18 +8,19 @@
 | --- | --- |
 | Windows x64 | NSIS `.exe`（可選語言）與各語言的 `.msi` |
 | macOS Apple Silicon + Intel | 通用版 `.dmg` |
+| Linux x64 (Ubuntu 22.04 build) | `.deb`、`.rpm`、`.AppImage` |
 | 校驗資訊 | `SHA256SUMS.txt` |
 
-推送 `v*` 標籤會執行測試與建置。兩個平台全部成功後，工作流程才建立草稿、
+推送 `v*` 標籤會執行測試與建置。三個平台全部成功後，工作流程才建立草稿、
 上傳安裝檔與 SHA-256 清單，再公開 Release。`-beta.1` 等版本會標記為
 pre-release。已公開的 Release 不會被重跑覆寫，修正請發布新版本。
 
 工作流程使用 GitHub 自動提供的 `GITHUB_TOKEN`，不需要自行新增 PAT。
 只有發布工作具有 `contents: write`，建置工作只有讀取權限。
 
-## 首次發布 v0.1.0
+## 首次發布流程（以 v0.1.0 為例）
 
-目前專案版本為 `0.1.0`。先把工作流程、檢查腳本與文件提交到 GitHub：
+以下保留首次發布 `0.1.0` 的流程範例；目前版本為 `0.2.0`。首次設定時，先把工作流程、檢查腳本與文件提交到 GitHub：
 
 ```bash
 git add .github scripts/check-release-version.mjs scripts/check-release-version.test.mjs docs/RELEASING.md README.md README.zh-TW.md
@@ -85,7 +86,7 @@ git push origin v0.1.0
 ## English quick reference
 
 Push a `v<version>` tag to build Windows x64 EXE/MSI installers and a universal
-macOS DMG. All matrix jobs must succeed before a release is published.
+macOS DMG, plus Linux x64 DEB/RPM/AppImage packages. All matrix jobs must succeed before a release is published.
 Branch-based manual runs only upload Actions artifacts (retained for 14 days).
 
 Keep the versions in `package.json`, `package-lock.json`, `src-tauri/tauri.conf.json`,

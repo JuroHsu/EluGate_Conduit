@@ -277,5 +277,20 @@
   "cls.disconnected": "Connection lost",
   "cls.unexpected": "ssh exited unexpectedly",
   "cls.withDetail": "{message}: {detail}",
-  "cls.withExitCode": "{message} (exit code {code})"
+  "cls.withExitCode": "{message} (exit code {code})",
+
+  "common.chooseFile": "Choose file",
+  "hosts.addIdentity": "Add identity file",
+  "hostForm.chooseIdentity": "Select SSH private key",
+  "identity.creating": "Creating…",
+  "identity.created": "Identity file created",
+  "identity.saved": "Private key: {private}\nPublic key: {public}",
+  "identity.hint": "This key has no passphrase. Add the public key below to the server’s authorized_keys. Keep the private key on this computer.",
+  "identity.publicKey": "Public key",
+  "identity.noHome": "Could not locate your home directory.",
+  "identity.keygenMissing": "ssh-keygen was not found. Install OpenSSH or check the SSH path in Preferences.",
+  "identity.exists": "{path} already exists and was not overwritten.",
+  "identity.timeout": "Key generation timed out.",
+  "identity.failed": "Key generation failed: {error}",
+  "identity.publishFailed": "Could not create {path}. Existing files will not be overwritten."
 }

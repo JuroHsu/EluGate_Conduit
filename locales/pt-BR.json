@@ -277,5 +277,20 @@
   "cls.disconnected": "Conexão perdida",
   "cls.unexpected": "O ssh foi encerrado inesperadamente",
   "cls.withDetail": "{message}: {detail}",
-  "cls.withExitCode": "{message} (código de saída {code})"
+  "cls.withExitCode": "{message} (código de saída {code})",
+
+  "common.chooseFile": "Selecionar arquivo",
+  "hosts.addIdentity": "Criar arquivo de identidade",
+  "hostForm.chooseIdentity": "Selecionar chave privada SSH",
+  "identity.creating": "Criando…",
+  "identity.created": "Arquivo de identidade criado",
+  "identity.saved": "Chave privada: {private}\nChave pública: {public}",
+  "identity.hint": "Esta chave não tem senha. Adicione a chave pública abaixo ao authorized_keys do servidor. Mantenha a chave privada neste computador.",
+  "identity.publicKey": "Chave pública",
+  "identity.noHome": "Não foi possível localizar sua pasta pessoal.",
+  "identity.keygenMissing": "ssh-keygen não foi encontrado. Instale o OpenSSH ou verifique o caminho SSH nas Preferências.",
+  "identity.exists": "{path} já existe e não foi sobrescrito.",
+  "identity.timeout": "O tempo para gerar a chave se esgotou.",
+  "identity.failed": "Falha ao gerar a chave: {error}",
+  "identity.publishFailed": "Não foi possível criar {path}. Arquivos existentes não serão sobrescritos."
 }
