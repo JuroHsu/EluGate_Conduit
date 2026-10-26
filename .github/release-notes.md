@@ -1,16 +1,16 @@
-## EluGate Conduit v0.2.1
+## EluGate Conduit v0.2.2
 
 ### What's new / 更新內容
 
-- Correct the Windows installer publisher and executable company name from `com` to **伊露科技有限公司 Elu Technology Ltd.**
-- Traditional Chinese users can install `EluGate-Conduit_0.2.1_x64_zh-TW.msi`. Updating to this version refreshes the publisher shown in Windows Installed apps.
-- MSI is provided in Traditional Chinese to preserve the bilingual publisher with the installer's supported code page. The EXE installer continues to offer all supported installer languages.
-- Includes all v0.2.0 features and fixes, with Windows, macOS, and Linux installers.
+- Fix middle-mouse dragging moving the entire interface out of view by disabling browser autoscroll and keeping the outer window layout fixed.
+- Preserve normal mouse-wheel scrolling in content lists, logs, dialogs, and the system tray panel. Scrolling at an area's boundary no longer propagates to its parent.
+- Keep long authentication prompts accessible through scrolling within the authentication window.
+- Includes all v0.2.1 features and fixes, with Windows, macOS, and Linux installers.
 
-- 將 Windows 安裝程式的發行者及執行檔公司名稱，從 `com` 修正為 **伊露科技有限公司 Elu Technology Ltd.**。
-- 繁體中文使用者可下載 `EluGate-Conduit_0.2.1_x64_zh-TW.msi`；安裝更新後，Windows「已安裝的應用程式」會顯示修正後的發行者。
-- MSI 提供繁體中文版，使用支援完整中英文公司名稱的編碼，並補齊中文安裝提示；EXE 安裝程式仍保留全部支援的語言。
-- 包含 v0.2.0 的全部功能與修正，並提供 Windows、macOS 與 Linux 安裝檔。
+- 修正按住滾輪拖曳會將整個介面捲出視窗的問題，停用瀏覽器自動捲動並固定外層版面。
+- 保留內容清單、日誌、對話框及系統匣面板的一般滾輪操作，捲動至邊界時不再連帶捲動外層內容。
+- 驗證視窗中的較長提示仍可透過內部捲動完整閱讀。
+- 包含 v0.2.1 的全部功能與修正，並提供 Windows、macOS 與 Linux 安裝檔。
 
 ## Download / 下載安裝檔
 

@@ -16,7 +16,7 @@ Built with **Rust**, **Tauri 2**, **React**, and **TypeScript**, it uses your sy
 
 ![Tunnel management in English](docs/screenshots/tunnels-en.png)
 
-> Version 0.2.1 — early development. Windows 11 is the primary validation platform. macOS and Linux support is implemented but has not been validated end to end. See [status and limitations](#status-and-limitations).
+> Version 0.2.2 — early development. Windows 11 is the primary validation platform. macOS and Linux support is implemented but has not been validated end to end. See [status and limitations](#status-and-limitations).
 >
 > Screenshots show the actual React interface rendered in Chromium with example data and simulated connection states. They do not show live SSH sessions. [Screenshot details](docs/screenshots/README.md).
 

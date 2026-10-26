@@ -24,7 +24,7 @@ WiX 3 的其他語系預設編碼無法全部容納此名稱；其他安裝語�
 
 ## 首次發布流程（以 v0.1.0 為例）
 
-以下保留首次發布 `0.1.0` 的流程範例；目前版本為 `0.2.1`。首次設定時，先把工作流程、檢查腳本與文件提交到 GitHub：
+以下保留首次發布 `0.1.0` 的流程範例；目前版本為 `0.2.2`。首次設定時，先把工作流程、檢查腳本與文件提交到 GitHub：
 
 ```bash
 git add .github scripts/check-release-version.mjs scripts/check-release-version.test.mjs docs/RELEASING.md README.md README.zh-TW.md

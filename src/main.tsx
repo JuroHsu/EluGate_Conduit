@@ -10,6 +10,11 @@ const params = new URLSearchParams(window.location.search);
 const view = params.get("view") ?? "main";
 document.body.dataset.view = view;
 
+// 停用按住滾輪拖曳的瀏覽器自動捲動；一般滾輪仍由各內容區處理。
+window.addEventListener("mousedown", (e) => {
+  if (e.button === 1) e.preventDefault();
+}, { capture: true });
+
 // 桌面應用不使用瀏覽器右鍵選單（輸入框除外）
 window.addEventListener("contextmenu", (e) => {
   const t = e.target as HTMLElement;

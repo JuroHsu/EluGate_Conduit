@@ -58,6 +58,9 @@ body,
 #root {
   height: 100%;
   margin: 0;
+  /* 視窗外框固定，捲動交給下方各內容容器。 */
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 body {
@@ -231,6 +234,7 @@ input:disabled {
 .app {
   display: flex;
   height: 100%;
+  overflow: hidden;
 }
 .sidebar {
   width: 216px;
@@ -241,6 +245,7 @@ input:disabled {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  overflow-y: auto;
 }
 .brand {
   display: flex;
@@ -281,6 +286,20 @@ input:disabled {
   flex: 1;
   overflow: auto;
   min-width: 0;
+  min-height: 0;
+}
+
+.content,
+.sidebar,
+.modal-body,
+.list,
+.code-editor,
+.diff,
+.log-view,
+.panel-list,
+.auth,
+.prompt-text {
+  overscroll-behavior: contain;
 }
 .page {
   padding: 24px 28px;
@@ -815,6 +834,7 @@ body[data-view="auth"] {
   flex-direction: column;
   gap: 10px;
   height: 100%;
+  overflow: auto;
 }
 .auth h1 {
   font-size: 18px;

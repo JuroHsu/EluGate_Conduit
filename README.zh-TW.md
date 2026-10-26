@@ -16,7 +16,7 @@ EluGate Conduit 是由 **伊露科技有限公司 Elu Technology Ltd.** 開發�
 
 ![繁體中文通道管理介面](docs/screenshots/tunnels-zh-TW.png)
 
-> 目前版本為 0.2.1，處於早期開發階段。Windows 11 為主要驗證平台；macOS 與 Linux 支援已實作，但尚未完成端到端驗證。詳見[目前狀態與限制](#目前狀態與限制)。
+> 目前版本為 0.2.2，處於早期開發階段。Windows 11 為主要驗證平台；macOS 與 Linux 支援已實作，但尚未完成端到端驗證。詳見[目前狀態與限制](#目前狀態與限制)。
 >
 > 截圖使用 Chromium 擷取專案實際 React 介面，搭配範例資料與模擬連線狀態，並非真實 SSH 連線。[截圖說明](docs/screenshots/README.md)。
 

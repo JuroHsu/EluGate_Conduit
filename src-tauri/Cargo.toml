@@ -1,6 +1,6 @@
 [package]
 name = "elugate-conduit"
-version = "0.2.1"
+version = "0.2.2"
 description = "EluGate Conduit - SSH 通道管理器"
 authors = ["伊露科技有限公司 Elu Technology Ltd. <service@elu.com.tw>"]
 license = "MIT"
